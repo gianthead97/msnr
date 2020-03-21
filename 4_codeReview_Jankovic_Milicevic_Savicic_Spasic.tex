@@ -7,6 +7,25 @@
 \usepackage[utf8]{inputenc} % make weird characters work
 \usepackage{graphicx}
 
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+
+\tikzstyle{StartBox} = [rectangle, rounded corners,
+, text width=3cm, minimum width = 3cm,
+text centered, draw=black, fill=red!30]
+\tikzstyle{InnerBox} = [rectangle, text width=3cm, minimum width = 3cm,
+text centered, draw=black]
+\tikzstyle{Decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, inner sep=0pt,
+    node distance=3cm]
+\tikzstyle{InformalBox} = [rectangle, text width=6cm, minimum width = 3cm,
+text centered, draw=black]
+
+\tikzstyle{Arrow} = [thick, ->, >=stealth]
+
+
+
 \usepackage[english,serbian]{babel}
 %\usepackage[english,serbianc]{babel} %ukljuciti babel sa ovim opcijama, umesto gornjim, ukoliko se koristi cirilica
 
@@ -63,8 +82,7 @@ katarina\_savicic@hotmail.com, spasicdunja3013@gmail.com}
 
 \maketitle
 
-\abstract{
-U ovom tekstu je ukratko prikazana osnovna forma seminarskog rada. Obratite pažnju da je pored ove .pdf datoteke, u prilogu i odgovarajuća .tex datoteka, kao i .bib datoteka korišćena za generisanje literature. Na prvoj strani seminarskog rada su naslov, apstrakt i sadržaj, i to sve mora da stane na prvu stranu! Kako bi Vaš seminarski zadovoljio standarde i očekivanja, koristite uputstva i materijale sa predavanja na temu pisanja seminarskih radova. Ovo je samo šablon koji se odnosi na fizički izgled seminarskog rada (šablon koji \emph{morate} da koristite!) kao i par tehničkih pomoćnih uputstava. Pročitajte tekst pažljivo jer on sadrži i važne informacije vezane za zahteve obima i karakteristika seminarskog rada.}
+\abstract{}
 
 \tableofcontents
 
@@ -80,16 +98,202 @@ Kada budete predavali seminarski rad, imenujete datoteke tako da sadrže redni b
 \section{Vrste pregleda}
 	\subsection{Formalni pregledi}
 	\subsection{Neformalni pregledi}
+	Istraživanja pokazuju da druge vrste pregleda koda, osim formalnih metoda, mogu da daju priblizhno dobre rezultate, sa mnogo manje uloženog novca u obučavanje i planiranje. Formalne metode sastanaka su ipak pokazale značajnu prednost u sprečavanje lažno pozitivnih problema (sprečavanje pronalaženje grešaka koje ne predstavljaju prave greške). Osim toga, 30\% pronađenih grešaka na formalnim sastancima je otkriveno zajednički, kroz razgovor.\cite{Johnson98doesevery} Uprkos tome, neformalne metode pregledanja koda štede dosta resursa i vremena pa je je korisno da se detaljnije razmotre.
+	
 		\subsubsection{Pregled preko ramena}
+		Pregled koda \textit{preko ramena} podrazumeva da programer stoji nad radnim stolom autora koda, dok autor sprovodi recenzenta kroz najnovije izmene koda. Obično autor sedi za računarom, otvara razne fajlove i pokazuje nove linije koda koje su dodate ili one koje su izbrisane. Ako recenzent primeti sitne nepravilnosti, može odmah da ih istakne programeru i da one budu izmenjene na licu mesta.
+		
+		
+		Sa pojavom novih softvera za deljenje ekrana, pregledi koda korišćenjem metode \textit{preko ramena} mogu da se obavljaju i na veće razdaljine. Ovakva komunikacija komplikuje proces pregleda koda jer je potrebno zakazati sanstanke ili telefonske razgovore.
+		
+		Prednost ove metode je jednostavnost. Bilo ko može da učestvuje u pregledu preko ramena bez prethodnog obučavanja. Još jedna značajna prednost je što može da se primeni bilo kad, što je bitno kada potrebno pregledati jako važnu izmenu koda. Generalno, svi pregledi koda uživo su dosta korisni jer pružaju programerima mogućnost da razmene ideje koje ne bi delili preko imejla ili poruka.
+		
+		Jednostavnost i neformalnost ovog pristupa takođe za sobom nose i neke nedostatke. Glavna mana je nemogućnost provere da li su pregledane sve izmena koda. Ne postoje nikakvi izveštaji, ili mere koje bi dokumentovale proces. Još jedan problem je što može veoma lako da se desi da autoru promakne da je napravio izmenu kada svoj kod prezentuje recenzentu. Recenzent jedino vidi ono što mu autor pokaže, nema mogućnost da sam pregleda ostale datoteke na koje bi ta izmena mogla da utiče. Ako autor napravi izmenu koja nije potpuno jasna svakom programeru bez pojašnjenja autora, sledećem programeru koji pregleda ili koristi kod neće biti jasna izmena. Pregled koda \textit{preko ramena} može efikasno da finkcioniše samo ako su autor i recenzent  fizički blizu, u istoj prostoriji ili u rade u susednim zgradama. Svako prebacivanje recenzije na elektronski vid komunikacije gubi poentu same ideje pregleda \textit{preko ramena}.
+		
+\\		
+
+\begin{figure}[ht]
+\hspace{2cm}
+\begin{tikzpicture} [node distance=3.5cm, auto]
+    
+    \node [InformalBox] (part1) {\textbf{Priprema}\\ 
+    \begin{itemize}
+        \item Programer nalazi slobodnog recenzenta za recenziju uživo ili 
+        za sastanak preko deljenog monitora.
+    \end{itemize}
+    };
+    \node [InformalBox, below of=part1] (part2) {\textbf{Inspekcijski sastanak}\\
+    \begin{itemize}
+    \item Programer sprovodi recenzenta kroz kod.
+    \item Recenzent prekida objašnjavanje da bi postavio pitanja.
+    \item Programer zapisuje kritike.
+     \end{itemize}
+    };
+    \node [InformalBox, below of=part2, node distance=3cm] (part3) {\textbf{Ispravljanje grešaka}\\
+    \begin{itemize}
+    \item Programer ispravlja greške u kodu koje je primeti recenzent.
+     \end{itemize}
+    };
+    \node [InformalBox, below of=part3,node distance=2.5cm] (part4) {\textbf{Završetak}\\
+    \begin{itemize}
+    \item Kada programer smatra da je obavio posao, postavlja kod u sistem za kontrolu verzija.
+     \end{itemize}
+    };
+ 
+    \draw [Arrow] (part1) -- (part2);
+    \draw [Arrow] (part2) -- (part3);
+    \draw [Arrow] (part3) -- (part4);
+\end{tikzpicture}
+\caption{Dijagram pregleda koda \textit{preko ramena}.}
+\label{slika:reviewboard}
+\end{figure}
 		\subsubsection{Preko mejla}
 		\subsubsection{Programiranje u paru}
 		\subsubsection{Asistenti alati}
 			
-		
+
+
+%%Nikolin deo
 \section{Alati}
+Moguće je naći veći broj softverskih rešenja koji mogu da posluže
+kao pomoć pri pregledu koda.
+\\
+Podelićemo ih u dve bitne kategorije:
+\begin{itemize}
+    \item Vlasnički
+    \item Otvorenog koda
+\end{itemize}
+Odlučili smo se da više prostora odvojimo za opcije iz druge grupe
+jer verujemo da akademska misao i koncept softvera otvorenog koda
+imaju veliku spregnutost.
+\\
+Nabrojaćemo neke popularnije alate iz prve grupe, a čitaocu ćemo ostaviti referentne lokacije ukoliko je zainteresovan da više istraži:
+\begin{itemize}
+    \item \emph{Collaborator} \cite{collaborator}
+    \item \emph{CodeScene} \cite{codescene}
+    \item \emph{Crucible} \cite{crucible}
+    \item \emph{Veracode} \cite{veracode}
+    \item \emph{Jarchitect} \cite{jarchitect}
+\end{itemize}
+\subsection{Alati otvorenog koda}
+\begin{itemize}
+    \item \emph{Gerrit}
+    \item \emph{Codestriker}
+    \item \emph{ReviewBoard}
+    \item \emph{Gitlab}
+    \item \emph{Phabricator}
+\end{itemize}
+\phantomsection
+\paragraph{Gerrit} \label{Gerrit} : Gerrit Code Review je započet kao skup dodatnih mogućnosti 
+na već ranije razvijen projekat pod nazivom \emph{Rietveld} i prvobitna svrha mu je bila
+da služi projektu AOSP. \footnote{\emph{Android Open Source Project}}
+Kasnije je postao zaseban projekat sa novim, značajnijim mogućnostima koje je autor 
+sistema \emph{Rietveld}, Gvido van Rosum \footnote{Guido van Rossum, poznatiji kao kreator
+programskog jezika Pajton}
+odbijao da doda kako bi zadržao jednostavnost koda.
+U tom momentu je počela i značajna promena samog koda pa je bio potreban novi naziv.
+Odabrano je ime Gerrit, u čast holandskog arhitekte Gerita Ritvelda.
+\\
+Verzija softvera Gerrit pod oznakom 2.X je bila značajna jer je izvorni kod napisan u Pajtonu
+reimplementiran uz pomoć programskog jezika Java.
+\cite{gerrit}
+\\
+Ovaj softver je licenciran pod \emph{Apache} licencom, ali postoje i vlasničke verzije softvera.
+\\[0.4cm]
+\textbf{Codestriker} : Codestriker je veb-aplikacija koja podržava on-lajn preglede koda.
+Moguće to učiniti na tradicionalan način, pregledom dokumentacije, ali takođe je podržan i pregled promena generisanih pomoću SCM 
+\footnote{Source Code Management} sistema.
+\\
+Prva verzija ovog softvera je nastala u Decembru 2001 i objavljena je na \emph{SourceForge} \footnote{Platforma na Internetu koja omogućava pristup softveru otvorenog koda.}
+platformi.
+Prvobitno, bio je implementiran kao ad hok rešenje u vidu manjeg skript programa napisanog u programskom jeziku Perl.
+Sve mogućnosti bi se mogle svesti u jednu rečenicu. 
+\emph{Prosledi svim potencijalnim pregledačima na mejl adresu izlaz
+komande iz programa koji služi kao posrednik u sistemu CVS i omogući
+pregledačima da mogu da ostavljaju komentare.}
+\\
+Poslednje verzije ovog softvera omogućavaju i dalje ovakav
+manje formalan (\emph{light-weight}) metod pregleda koda, ali 
+podržava i potpuno formalan pristup.
+\\
+Za razliku od \ref{Gerrit}, ovaj projekat je u svim svojim verzijama pod licencom
+koja spada u grupu onih koje zastupaju koncept softvera otvorenog koda, tačnije GPL
+\footnote{The GNU General Public License}.
+\\[0.4cm]
+\textbf{ReviewBoard} : Projekat ReviewBoard biva započet od 
+strane dva programera, Kristejn Hemond (\emph{Christain Hammond}) i  David Troubridž (\emph{David Trowbridge}), kompanije VMware. Oni su dobili zadatak
+da unaprede dotadašnji mehanizam pregledanja koda u timovima 
+te kompanije. Koji se svodio na generisanje HTML koda koji je prikazivao 
+staru i novu verziju koda i markirao delove koji se razlikuju. Članovi tima su imali mogućnost da dodaju i objašnjenja 
+zašto su pravili te izmene i koje su sve testove sproveli
+nad novom verzijom koda. Nakon toga slao se zahtev potencijalnim
+pregledačima.
+Sve to je oduzimalo previše vremena, a dolazilo je i do gubitaka tih zahteva, pa je bilo neophodno unaprediti sve.
+\\
+Izvorni kod ovog alata napisan je u programskom jeziku 
+Pajton uz pomoć radnog okvira Django. Pod licencom je 
+\emph{Open Source MIT license}.
+\cite{bosu}
+\\
+\begin{figure}
 
+\hspace{1cm}
+\begin{tikzpicture} [node distance=2cm, auto]
+    \node [StartBox] (start) {Pravljenje promena u kodu na lokalnom repozitorijumu};
+    \node [InnerBox, right of=start, node distance=4.5cm] (part1) {Generisanje diff datoteke na osnovu promena};
+    \node [InnerBox, below of=part1] (part2) {Postavljanje
+    zahteva za pregledanje na ReviewBoard};
+    \node [InnerBox, below of=part2] (part3) {Čekanje na
+    povratnu informaciju od pregledača.};
+    \node [Decision, below of =part3, yshift=0.5cm] (decision) {Zahtev za izmenom};
+    \node [InnerBox, left of=decision, node distance=4.5cm] (part4) 
+    {Menjanje koda u skladu sa predloženim izmenama};
+    \node [InnerBox, above of=part4, yshift=0.5cm] (part5) 
+    {Generisanje nove diff datoteke i slanje zahteva
+    za pregled};
+    \node [InnerBox, below of=decision, yshift=-0.5cm] (part6) 
+    {Potvrđivanje izmena na globalnom repozitorujumu.};
+    \node [StartBox, left of=part6, node distance=4.5cm] (end) 
+    {Označavanje predloga za izmenu kao prihvaćenim.};
+    
+    
+    \draw [Arrow] (start) -- (part1);
+    \draw [Arrow] (part1) -- (part2);
+    \draw [Arrow] (part2) -- (part3);
+    \draw [Arrow] (part3) -- (decision);
+    \draw [Arrow] (decision) -- node {ne}(part4);
+    \draw [Arrow] (part4) -- (part5);
+    \draw [Arrow] (part5) -- (part3);
+    \draw [Arrow] (decision) -- node {da} (part6);
+    \draw [Arrow] (part6) -- (end);
+\end{tikzpicture}
+\caption{Graf toka jednog procesa u radu sa alatom ReviewBoard}
+\label{slika:reviewboard}
+\end{figure}
 
-\section{Saveti}
+\newpage
+\section{Uticaji pregleda}
+Kako pregledi kôda utiču na programere koji zajedno rade u timu? Pokazalo se da dolazi do mnogih pozitivnih uticaja, ali i do nekih negativnih. \cite{bkspcr} O ovim uticajima bi trebalo više govoriti -- pozitivne pohvaliti, a na negativne posebno obratiti pažnju i predložiti načine da se oni reše. U ovom delu rada ćemo navesti i objasniti neke od njih.
+
+\subsection{Pozitivni uticaji}
+%The “Ego Effect”
+Programeri, znajući da će kolege iz tima pregledati njihov kôd, postaju pažljiviji. Svako želi da dobije što bolju kritiku i sigurno niko ne želi da bude onaj član tima koji uvek pravi neke početničke greške. Stoga će svako uložiti dodatni napor da sve proveri i ispoštuje pravila kodiranja. Ovaj uticaj se naziva „Ego efekat” (eng. \emph{the “Ego Effect”}). \cite{bkspcr}
+
+Kod tehnike pregledanja, razmena znanja je obostrana. Iako se može pretpostaviti da u tom procesu uči samo programer čiji se kôd pregleda, nije tako. I pregledač može nešto novo naučiti gledajući kôd. Prvenstveno, iskusniji programeri pregledaju rad mlađih programera. Tada oni mogu uočiti neke stvari na koje, zbog navike, nisu obraćali pažnju, otkriti nove ideje i usvojiti nov način razmišljanja.
+
+Pregledanje ne podstiče samo konverzaciju o kôdu, već i lični razvoj. Programer će saznati koje su to greške koje često ponavlja, a kojih možda nije ni bio svestan. Radiće na tome da ih ispravi. Vremenom će postati produktivniji i efikasniji, bez nekog pritiska, samo posmatrajući sebe. \cite{bkspcr}
+
+\subsection{Negativni uticaji}
+%Hurt Feelings and The “Big Brother” Effect
+Niko ne prihvata kritike najradije i svakome bude neprijatno kada mu se ukaže greška. Ipak, ljudi reaguju na kritike na različite načine. Neki ljudi to lakše podnesu, isprave grešku koju su napravili, okrenu je na šalu i tako prevaziđu situaciju. Drugi, posebno ako smatraju da su dali sve od sebe, kritike shvataju vrlo lično i povlače se u sebe. O tome treba voditi računa. Menadžeri moraju promovisati stav da su nedostaci pozitivni. Svaki od njih je prilika za poboljšanje kôda, a cilj postupka pregledanja je učiniti kôd što boljim. Cilj je eliminisanje što većeg broja oštećenja, bez obzira na to ko je prouzrokovao grešku. Pronalazak nedostatka ne znači „autor je napravio grešku i pregledač ju je pronašao“, već znači da su autor i pregledač zajedno kao tim radili na poboljšanju proizvoda. \cite{bkspcr} \cite{ibm}
+
+Pored lošeg prihvatanja kritike, negativni uticaj je i efekat „Velikog brata” (eng. \emph{the “Big Brother” effect}). \cite{bkspcr} Programer može steći utisak da ga neko stalno posmatra, pogotovo ako radi sa alatima za pregledanje. Zabeleženi i izmereni podaci su značajni za proces pregledanja, ali mogu izazvati loš efekat. Ako programer misli da će ti podaci biti iskorišćeni protiv njega, ne samo da će biti neprijateljski nastrojen prema procesu pregledanja, već će se fokusirati na poboljšanje svoje statistike umesto da zaista napiše bolji kôd. Menadžeri moraju biti svesni ovoga. Ako im izmereni podaci pomognu da otkriju neki problem, izdvajanje pojedinca će pre izazvati nove probleme nego što će rešiti tekući. Bolje je obratiti se grupi kao celini. Takođe, bolje je ne sazivati poseban sastanak u ovu svrhu, već samo taj problem uvrstiti u neki uobičajeni postupak. \cite{ibm}
+
+Važno je imati na umu i to da je teži kôd skloniji greškama. Vrši se detaljnije pregledanje i očekuje se da će biti dosta nedostataka, pa se često veliki broj istih više pripisuje složenosti kôda nego sposobnostima autora.
+
+\subsection{Agilni timovi i pregledi kôda}
+
+\section{Saveti za dobro pregledanje}
 
 \addcontentsline{toc}{section}{Literatura}
 \appendix
